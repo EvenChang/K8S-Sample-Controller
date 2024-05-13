@@ -25,6 +25,8 @@ import (
 	fakediscovery "k8s.io/client-go/discovery/fake"
 	"k8s.io/client-go/testing"
 	clientset "k8s.io/sample-controller/pkg/generated/clientset/versioned"
+	evencontrollerv1alpha1 "k8s.io/sample-controller/pkg/generated/clientset/versioned/typed/evencontroller/v1alpha1"
+	fakeevencontrollerv1alpha1 "k8s.io/sample-controller/pkg/generated/clientset/versioned/typed/evencontroller/v1alpha1/fake"
 	samplecontrollerv1alpha1 "k8s.io/sample-controller/pkg/generated/clientset/versioned/typed/samplecontroller/v1alpha1"
 	fakesamplecontrollerv1alpha1 "k8s.io/sample-controller/pkg/generated/clientset/versioned/typed/samplecontroller/v1alpha1/fake"
 )
@@ -78,6 +80,11 @@ var (
 	_ clientset.Interface = &Clientset{}
 	_ testing.FakeClient  = &Clientset{}
 )
+
+// EvencontrollerV1alpha1 retrieves the EvencontrollerV1alpha1Client
+func (c *Clientset) EvencontrollerV1alpha1() evencontrollerv1alpha1.EvencontrollerV1alpha1Interface {
+	return &fakeevencontrollerv1alpha1.FakeEvencontrollerV1alpha1{Fake: &c.Fake}
+}
 
 // SamplecontrollerV1alpha1 retrieves the SamplecontrollerV1alpha1Client
 func (c *Clientset) SamplecontrollerV1alpha1() samplecontrollerv1alpha1.SamplecontrollerV1alpha1Interface {

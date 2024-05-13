@@ -28,6 +28,7 @@ import (
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
 	cache "k8s.io/client-go/tools/cache"
 	versioned "k8s.io/sample-controller/pkg/generated/clientset/versioned"
+	evencontroller "k8s.io/sample-controller/pkg/generated/informers/externalversions/evencontroller"
 	internalinterfaces "k8s.io/sample-controller/pkg/generated/informers/externalversions/internalinterfaces"
 	samplecontroller "k8s.io/sample-controller/pkg/generated/informers/externalversions/samplecontroller"
 )
@@ -253,7 +254,12 @@ type SharedInformerFactory interface {
 	// client.
 	InformerFor(obj runtime.Object, newFunc internalinterfaces.NewInformerFunc) cache.SharedIndexInformer
 
+	Evencontroller() evencontroller.Interface
 	Samplecontroller() samplecontroller.Interface
+}
+
+func (f *sharedInformerFactory) Evencontroller() evencontroller.Interface {
+	return evencontroller.New(f, f.namespace, f.tweakListOptions)
 }
 
 func (f *sharedInformerFactory) Samplecontroller() samplecontroller.Interface {

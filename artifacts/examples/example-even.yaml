@@ -1,0 +1,7 @@
+apiVersion: evencontroller.k8s.io/v1alpha1
+kind: Even
+metadata:
+  name: example-even
+spec:
+  daemonsetName: 1
+  replicas: "string"
